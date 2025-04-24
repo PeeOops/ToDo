@@ -8,18 +8,15 @@
 <body>
     <div class="container">
         <!-- Current Day -->
-        <h1>Thursday</h1>
+        <h1 id="currentDay">Thursday</h1>
         <!-- Current Date -->
-        <h3>24th April 2025</h3>
-        <!-- Form -->
-        <form action="">
-            <div class="add-note">
-                <input type="text" placeholder="Add Note here">
-                <button type="submit">Add</button>
-            </div>
-        </form>
+        <h3 id="currentDate">24th April 2025</h3>
+        <div class="add-note">
+            <input type="text" placeholder="Add Note here" id="inputTask">
+            <button id="addButton">Add</button>
+        </div>
         <!-- Tasks List -->
-        <div class="tasks">
+        <div class="tasks" id="tasks">
             <div class="task">
                 <p>Run for 1 hour</p>
                 <input type="checkbox">
