@@ -5,41 +5,40 @@ const addTaskButton = document.getElementById("addButton");
 
 
 // Current List
-const tasksList = [
-    {
-        id: 1,
-        task: "Run for 1 hour"
-    },
-    {
-        id: 2,
-        task: "Walk with dog"
-    }
-    
-];
-
-// Stored list in localStorage
-const storedLists = localStorage.setItem("tasks",JSON.stringify(tasksList));
+const tasksList = JSON.parse(localStorage.getItem("tasks")) || [];
 
 // Add Item
 
-addTaskButton.addEventListener(() => {
+addTaskButton.addEventListener("click",() => {
 
     // Task input Value
     const task = inputTask.value;
 
     // Check for Error
+    if(task === ""){
+        alert("Check your input!");
+        return;
+    }
 
-    // Get current list from localStorage or make a new array if empty
-
-    // New incrementing id
+    // incrementing id check exist or not
+    const newId = tasksList.length > 0 ? Math.max(...tasksList.map(item => item.id)) + 1 : 1;
 
     // New task
+    const newItem = {
+        id : newId,
+        name : task
+    }
 
+    
     // new item to the list
-
+    tasksList.push(newItem);
+    
     // store updated list back in the localStorage
+    localStorage.setItem("tasks", JSON.stringify(tasksList));
 
     // Clear input field
+    task.value = "";
 
     // Show task
+    console.log(tasksList);
 })
