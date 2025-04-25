@@ -4,15 +4,18 @@ const inputTask = document.getElementById("inputTask");
 const addTaskButton = document.getElementById("addButton");
 const displayTask = document.getElementById("tasks");
 
+
 // Default Lists
 const defaultLists = [
     {
         id: 1,
-        name: "Read Textbook Chapter 1"
+        name: "Read Textbook Chapter 1",
+        done: false
     },
     {
         id: 2,
-        name: "Sing a song"
+        name: "Sing a song",
+        done: false
 
     }
 ]
@@ -22,13 +25,11 @@ if(!localStorage.getItem("tasks")){
     localStorage.setItem("tasks",JSON.stringify(defaultLists));
 }
 
-// Declare tasksList globally to be accessed
-const tasksList = JSON.parse(localStorage.getItem("tasks"));
-
-
 
 // Add Item
 addTaskButton.addEventListener("click",() => {
+
+    const tasksList = JSON.parse(localStorage.getItem("tasks") || []);
 
     // Task input Value
     const task = inputTask.value;
@@ -45,7 +46,8 @@ addTaskButton.addEventListener("click",() => {
     // New task
     const newItem = {
         id : newId,
-        name : task
+        name : task,
+        done: false
     }
     
     // new item to the list
@@ -68,18 +70,35 @@ const showTasks = () => {
     // Redeclare tasksList inside to make sure to get latest tasks
     const tasksList = JSON.parse(localStorage.getItem("tasks") || []);
 
-    // Clear it first
     displayTask.innerHTML = "";
 
-    // Show tasks
-    tasksList.forEach(element => {
+    tasksList.forEach((element) => {
+        const textStyle = element.done ? "text-decoration: line-through;" : "";
+
         displayTask.innerHTML += `
             <div class="task">
-                <p>${element.name}</p>
-                <input type="checkbox">
+                <p id="task-text-${element.id}" style="${textStyle}">${element.name}</p>
+                <input type="checkbox" id="checkbox-${element.id}" ${element.done ? "checked" : ""}>
             </div>
-        `
+        `;
     });
+
+    // After all checkboxes are rendered, add event listeners
+    tasksList.forEach((element) => {
+        const checkBox = document.getElementById(`checkbox-${element.id}`);
+        const text = document.getElementById(`task-text-${element.id}`);
+
+        checkBox.addEventListener("change", () => {
+            element.done = checkBox.checked;
+
+            // Update text style
+            text.style.textDecoration = element.done ? "line-through" : "none";
+
+            // Save back to localStorage
+            localStorage.setItem("tasks", JSON.stringify(tasksList));
+        });
+    });
+
 }
 
 const getDate = () => {
@@ -106,9 +125,12 @@ const getDate = () => {
     }
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    var yyyy = today.getFullYear();
+    const yyyy = today.getFullYear();
     currentDate.innerText = `${dd} ${months[parseInt(mm,10)]} ${yyyy}`;
 }
+
+
+
 
 getDate();
 showTasks();
