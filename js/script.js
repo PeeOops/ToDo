@@ -92,14 +92,17 @@ const getDate = () => {
 
     // Current Date
     const numDay = String(today.getDate()).padStart(2, '0');
-    if(numDay.slice(-1) == 1){
-        var dd = `${numDay}st`;
+    let dd = ""
+    if(numDay >= 11 && numDay <= 13){
+        dd = `${numDay}th`
+    }else if(numDay.slice(-1) == 1){
+        dd = `${numDay}st`;
     }else if(numDay.slice(-1) == 2){
-        var dd = `${numDay}nd`;
+        dd = `${numDay}nd`;
     }else if(numDay.slice(-1) == 3){
-        var dd = `${numDay}rd`;
+        dd = `${numDay}rd`;
     }else{
-        var dd = `${numDay}th`;
+        dd = `${numDay}th`;
     }
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
