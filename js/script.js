@@ -89,6 +89,22 @@ const getDate = () => {
     const day = today.getDay();
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     currentDay.innerText = daysOfWeek[day];
+
+    // Current Date
+    const numDay = String(today.getDate()).padStart(2, '0');
+    if(numDay.slice(-1) == 1){
+        var dd = `${numDay}st`;
+    }else if(numDay.slice(-1) == 2){
+        var dd = `${numDay}nd`;
+    }else if(numDay.slice(-1) == 3){
+        var dd = `${numDay}rd`;
+    }else{
+        var dd = `${numDay}th`;
+    }
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    var yyyy = today.getFullYear();
+    currentDate.innerText = `${dd} ${months[parseInt(mm,10)]} ${yyyy}`;
 }
 
 getDate();
