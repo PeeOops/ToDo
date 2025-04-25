@@ -2,13 +2,32 @@ const currentDay = document.getElementById("currentDay");
 const currentDate = document.getElementById("currentDate");
 const inputTask = document.getElementById("inputTask");
 const addTaskButton = document.getElementById("addButton");
+const displayTask = document.getElementById("tasks");
+
+// Default Lists
+const defaultLists = [
+    {
+        id: 1,
+        name: "Read Textbook Chapter 1"
+    },
+    {
+        id: 2,
+        name: "Sing a song"
+
+    }
+]
+
+// Check if "tasks" is in localStorage
+if(!localStorage.getItem("tasks")){
+    localStorage.setItem("tasks",JSON.stringify(defaultLists));
+}
+
+// Declare tasksList globally to be accessed
+const tasksList = JSON.parse(localStorage.getItem("tasks"));
 
 
-// Current List
-const tasksList = JSON.parse(localStorage.getItem("tasks")) || [];
 
 // Add Item
-
 addTaskButton.addEventListener("click",() => {
 
     // Task input Value
@@ -28,17 +47,49 @@ addTaskButton.addEventListener("click",() => {
         id : newId,
         name : task
     }
-
     
     // new item to the list
     tasksList.push(newItem);
-    
+
     // store updated list back in the localStorage
     localStorage.setItem("tasks", JSON.stringify(tasksList));
 
     // Clear input field
-    task.value = "";
+    inputTask.value = "";
 
-    // Show task
-    console.log(tasksList);
+    // Show tasks
+    showTasks();
 })
+
+// Display Tasks
+
+const showTasks = () => {
+
+    // Redeclare tasksList inside to make sure to get latest tasks
+    const tasksList = JSON.parse(localStorage.getItem("tasks") || []);
+
+    // Clear it first
+    displayTask.innerHTML = "";
+
+    // Show tasks
+    tasksList.forEach(element => {
+        displayTask.innerHTML += `
+            <div class="task">
+                <p>${element.name}</p>
+                <input type="checkbox">
+            </div>
+        `
+    });
+}
+
+const getDate = () => {
+    const today = new Date();
+
+    // Current Day
+    const day = today.getDay();
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    currentDay.innerText = daysOfWeek[day];
+}
+
+getDate();
+showTasks();
