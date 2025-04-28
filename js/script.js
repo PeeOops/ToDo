@@ -109,7 +109,7 @@ const showTasks = () => {
             
             // Check if it's available
             if(tasksIndex !== -1){
-                tasksList.splice(taskIndex,1);
+                tasksList.splice(tasksIndex,1);
             }
 
             localStorage.setItem("tasks", JSON.stringify(tasksList));
