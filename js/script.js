@@ -105,14 +105,13 @@ const showTasks = () => {
 
         deleteButton.addEventListener("click", () => {
             // Find index from array
-            const taskIndex = tasksList.findIndex((task) => task.id === element.id);
-
+            const tasksIndex = tasksList.findIndex((item) => item.id === element.id);
+            
             // Check if it's available
             if(taskIndex !== -1){
                 tasksList.splice(taskIndex,1);
             }
 
-            
             localStorage.setItem("tasks", JSON.stringify(tasksList));
 
             showTasks();
