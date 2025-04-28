@@ -108,7 +108,7 @@ const showTasks = () => {
             const tasksIndex = tasksList.findIndex((item) => item.id === element.id);
             
             // Check if it's available
-            if(taskIndex !== -1){
+            if(tasksIndex !== -1){
                 tasksList.splice(taskIndex,1);
             }
 
