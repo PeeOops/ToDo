@@ -78,7 +78,11 @@ const showTasks = () => {
         displayTask.innerHTML += `
             <div class="task">
                 <p id="task-text-${element.id}" style="${textStyle}">${element.name}</p>
-                <input type="checkbox" id="checkbox-${element.id}" ${element.done ? "checked" : ""}>
+                <div class="task" style="gap: 10px;">
+                    <input type="checkbox" id="checkbox-${element.id}" ${element.done ? "checked" : ""}>
+                    <p id="delete-${element.id}" style="cursor:pointer;">Delete</p>
+                </div>
+                
             </div>
         `;
     });
@@ -87,6 +91,7 @@ const showTasks = () => {
     tasksList.forEach((element) => {
         const checkBox = document.getElementById(`checkbox-${element.id}`);
         const text = document.getElementById(`task-text-${element.id}`);
+        const deleteButton = document.getElementById(`delete-${element.id}`);
 
         checkBox.addEventListener("change", () => {
             element.done = checkBox.checked;
@@ -97,6 +102,21 @@ const showTasks = () => {
             // Save back to localStorage
             localStorage.setItem("tasks", JSON.stringify(tasksList));
         });
+
+        deleteButton.addEventListener("click", () => {
+            // Find index from array
+            const taskIndex = tasksList.findIndex((task) => task.id === element.id);
+
+            // Check if it's available
+            if(taskIndex !== -1){
+                tasksList.splice(taskIndex,1);
+            }
+
+            
+            localStorage.setItem("tasks", JSON.stringify(tasksList));
+
+            showTasks();
+        })
     });
 
 }
